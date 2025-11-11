@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Navbar Dropdown Fix</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      /* biar posisi search tetap di tengah dengan ukuran besar */
+      .search-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      .search-container input {
+        width: 100%;
+        max-width: 500px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="p-3 mb-3 border-bottom bg-light"> 
+      <div class="container-fluid"> 
+        <div class="d-flex align-items-center justify-content-between">
+
+          <!-- Kiri: Logo + Kategori -->
+          <div class="d-flex align-items-center gap-3">
+            <a href="/" class="d-flex align-items-center text-decoration-none">
+              <img src="MU.png" alt="logo" height="50">
+            </a>
+
+            <div class="dropdown"> 
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Kategori
+              </a> 
+              <ul class="dropdown-menu text-small">
+                <li><h6 class="dropdown-header">KATEGORI</h6></li>
+                <li><a class="dropdown-item" href="#">New project...</a></li> 
+                <li><a class="dropdown-item" href="#">Settings</a></li> 
+                <li><a class="dropdown-item" href="#">Profile</a></li> 
+                <li><hr class="dropdown-divider"></li> 
+                <li><a class="dropdown-item" href="#">Sign out</a></li> 
+              </ul>
+            </div> 
+          </div>
+
+          <!-- Tengah: Search -->
+          <div class="search-container px-3">
+            <form class="d-flex w-100" role="search"> 
+              <input type="search" class="form-control form-control-lg" placeholder="Search..." aria-label="Search"> 
+            </form> 
+          </div>
+
+          <!-- Kanan: Create + User -->
+          <div class="d-flex align-items-center gap-4 me-3"> 
+            <div class="dropdown"> 
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Create</a>
+              <ul class="dropdown-menu text-small"> 
+                <li><a class="dropdown-item" href="#">Create...</a></li> 
+                <li><a class="dropdown-item" href="#">Settings</a></li> 
+                <li><a class="dropdown-item" href="#">Profile</a></li> 
+                <li><hr class="dropdown-divider"></li> 
+                <li><a class="dropdown-item" href="#">Sign out</a></li> 
+              </ul>
+            </div>
+
+            <div class="dropdown"> 
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> 
+                <img src="https://github.com/mdo.png" alt="mdo" width="36" height="36" class="rounded-circle"> 
+              </a> 
+              <ul class="dropdown-menu text-small"> 
+                <li><a class="dropdown-item" href="#">New project...</a></li> 
+                <li><a class="dropdown-item" href="#">Settings</a></li> 
+                <li><a class="dropdown-item" href="#">Profile</a></li> 
+                <li><hr class="dropdown-divider"></li> 
+                <li><a class="dropdown-item" href="#">Sign out</a></li> 
+              </ul>
+            </div> 
+          </div>
+
+        </div> 
+      </div> 
+    </header>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
