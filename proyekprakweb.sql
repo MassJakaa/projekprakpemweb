@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Nov 2025 pada 10.37
+-- Waktu pembuatan: 23 Nov 2025 pada 07.40
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -45,30 +45,21 @@ CREATE TABLE `kategori` (
   `nama_kategori` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Struktur dari tabel `kategori_novel`
+-- Dumping data untuk tabel `kategori`
 --
 
-CREATE TABLE `kategori_novel` (
-  `id_novel` int(11) NOT NULL,
-  `id_kategori` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `reading_history`
---
-
-CREATE TABLE `reading_history` (
-  `id_histori` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `story_id` int(11) DEFAULT NULL,
-  `last_page` int(11) DEFAULT 1,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
+(1, 'Romance'),
+(2, 'Fantasy'),
+(3, 'Mystery'),
+(4, 'Horror'),
+(5, 'Sci-Fi'),
+(6, 'Action'),
+(7, 'Drama'),
+(8, 'Comedy'),
+(9, 'Adventure'),
+(10, 'Thriller');
 
 -- --------------------------------------------------------
 
@@ -79,12 +70,24 @@ CREATE TABLE `reading_history` (
 CREATE TABLE `stories` (
   `id_novel` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
+  `kategori_id` int(11) DEFAULT NULL,
   `judul` varchar(255) NOT NULL,
+  `author` varchar(100) NOT NULL,
   `deskripsi` text DEFAULT NULL,
   `cover_url` varchar(500) DEFAULT NULL,
+  `cover_id` varchar(255) DEFAULT NULL,
   `pdf_url` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `pdf_id` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `stories`
+--
+
+INSERT INTO `stories` (`id_novel`, `user_id`, `kategori_id`, `judul`, `author`, `deskripsi`, `cover_url`, `cover_id`, `pdf_url`, `pdf_id`, `created_at`, `updated_at`) VALUES
+(2, 1, 2, 'Kasih Sayang Admin kepada membernya', 'Jaka CDI Shogun', 'Novel ini bercerita mengenai seorang admin yang bernama wowo yang sangat menyayangi membernya yaitu mbak teddy uhuy ea.', 'https://res.cloudinary.com/dglpxhav2/image/upload/v1763874883/covers/MU_pfzur9.png', 'covers/MU_pfzur9', 'https://res.cloudinary.com/dglpxhav2/image/upload/v1763874903/pdfs/Soal_Tugas_Integrasi_Numerik_t8zi3x.pdf', 'pdfs/Soal_Tugas_Integrasi_Numerik_t8zi3x', '2025-11-23 05:16:31', '2025-11-23 06:37:10');
 
 -- --------------------------------------------------------
 
@@ -117,7 +120,7 @@ INSERT INTO `users` (`id_user`, `username`, `umur`, `email`, `password`, `create
 --
 ALTER TABLE `favorites`
   ADD PRIMARY KEY (`id_favorit`),
-  ADD UNIQUE KEY `user_id` (`user_id`,`story_id`),
+  ADD UNIQUE KEY `user_story_unique` (`user_id`,`story_id`),
   ADD KEY `story_id` (`story_id`);
 
 --
@@ -127,26 +130,13 @@ ALTER TABLE `kategori`
   ADD PRIMARY KEY (`id_kategori`);
 
 --
--- Indeks untuk tabel `kategori_novel`
---
-ALTER TABLE `kategori_novel`
-  ADD PRIMARY KEY (`id_novel`,`id_kategori`),
-  ADD KEY `id_kategori` (`id_kategori`);
-
---
--- Indeks untuk tabel `reading_history`
---
-ALTER TABLE `reading_history`
-  ADD PRIMARY KEY (`id_histori`),
-  ADD UNIQUE KEY `user_id` (`user_id`,`story_id`),
-  ADD KEY `story_id` (`story_id`);
-
---
 -- Indeks untuk tabel `stories`
 --
 ALTER TABLE `stories`
   ADD PRIMARY KEY (`id_novel`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `kategori_id` (`kategori_id`),
+  ADD KEY `idx_created_at` (`created_at`);
 
 --
 -- Indeks untuk tabel `users`
@@ -170,19 +160,13 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT untuk tabel `kategori`
 --
 ALTER TABLE `kategori`
-  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `reading_history`
---
-ALTER TABLE `reading_history`
-  MODIFY `id_histori` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `stories`
 --
 ALTER TABLE `stories`
-  MODIFY `id_novel` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_novel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
@@ -202,24 +186,11 @@ ALTER TABLE `favorites`
   ADD CONSTRAINT `favorites_ibfk_2` FOREIGN KEY (`story_id`) REFERENCES `stories` (`id_novel`);
 
 --
--- Ketidakleluasaan untuk tabel `kategori_novel`
---
-ALTER TABLE `kategori_novel`
-  ADD CONSTRAINT `kategori_novel_ibfk_1` FOREIGN KEY (`id_novel`) REFERENCES `stories` (`id_novel`),
-  ADD CONSTRAINT `kategori_novel_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`);
-
---
--- Ketidakleluasaan untuk tabel `reading_history`
---
-ALTER TABLE `reading_history`
-  ADD CONSTRAINT `reading_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`),
-  ADD CONSTRAINT `reading_history_ibfk_2` FOREIGN KEY (`story_id`) REFERENCES `stories` (`id_novel`);
-
---
 -- Ketidakleluasaan untuk tabel `stories`
 --
 ALTER TABLE `stories`
-  ADD CONSTRAINT `stories_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`);
+  ADD CONSTRAINT `stories_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stories_ibfk_2` FOREIGN KEY (`kategori_id`) REFERENCES `kategori` (`id_kategori`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
