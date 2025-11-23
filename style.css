@@ -1,146 +1,98 @@
-.search-container {
-    flex: 1;
-    justify-content: center;
-    display: flex;
-}
-.search-container input {
-    width: 100%;
-    max-width: 500px;
-}
-/* .hero {
-    height: 100dvh;
-    background: url('hero.jpeg') center/cover no-repeat;
-    position: relative;
-}
-.hero::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-}
-.hero-content {
-    position: relative;
-    z-index: 1;
-    color: white;
-    text-align: center;
-    top: 5%;
-} */
+/* === SEARCH BAR === */
+    .search-container {
+      flex: 1;
+      justify-content: center;
+      display: flex;
+    }
 
-:root {
-    --carousel-height: 400px; /* ubah jadi 300px / 500px sesuai kebutuhan */
-}
+    .search-container input {
+      width: 100%;
+      max-width: 700px;
+    }
 
-/*carousel atas*/
-.carousel {
-    max-width: 1000px; /* bisa diatur juga, misal 800px */
-    margin: 0 auto; /* biar center */
-}
+    /* === CAROUSEL HERO (PROMO) === */
+    :root {
+      --carousel-height: 400px;
+    }
 
-.carousel-inner {
-    height: var(--carousel-height);
-}
+    #hero-promo-carousel {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-.carousel-inner img {
-    object-fit: cover; /* biar proporsional */
-    height: 100%;
-    width: 100%;
-    border-radius: 10px; /* opsional, biar halus di sudut */
-}
+    #hero-promo-carousel .carousel-inner {
+      height: var(--carousel-height);
+    }
 
-    .custom-nav {
+    #hero-promo-carousel .carousel-inner img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    /* === NOVEL CARD - PORTRAIT 3:4 === */
+    .novel-card {
+      height: 100%;
+      transition: transform 0.3s ease;
+    }
+
+    .novel-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .novel-card .card-img-top {
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+
+    /* === CAROUSEL REKOMENDASI & READING HISTORY (SHARED) === */
+    .novel-carousel-section {
+      padding: 60px 0;
+    }
+
+    .novel-carousel-section h2 {
+      margin-bottom: 40px;
+      font-weight: bold;
+    }
+
+    .novel-carousel-section .carousel-control-prev,
+    .novel-carousel-section .carousel-control-next {
       width: 50px;
       height: 50px;
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgba(90, 90, 90, 0.75);
       border-radius: 50%;
       top: 50%;
       transform: translateY(-50%);
       transition: background-color 0.3s ease;
     }
 
-    .custom-nav:hover {
-      background-color: rgba(255, 255, 255, 0.8);
+    /* Posisi tombol di luar container */
+    .novel-carousel-section .carousel-control-prev {
+      left: -70px;
     }
 
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-      filter: invert(1); /* bikin ikon jadi putih */
-      width: 20px;
-      height: 20px;
+    .novel-carousel-section .carousel-control-next {
+      right: -70px;
     }
 
-/*carousel bawah*/
-  /* === Carousel BAWAH === */
-  .carousel-bawah .nav-bawah {
-    width: 50px;
-    height: 50px;
-    background-color: rgba(90, 90, 90, 0.75); /* lebih gelap, biar kontras */
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: background-color 0.3s ease;
-  }
-
-  .carousel-bawah .carousel-control-prev {
-    left: -70px; /* posisi tombol kiri */
-  }
-
-  .carousel-bawah .carousel-control-next {
-    right: -70px; /* posisi tombol kanan */
-  }
-
-  .carousel-bawah .nav-bawah:hover {
-    background-color: rgba(130, 130, 130, 0.9); /* lebih terang saat hover */
-  }
-
-  .carousel-bawah .carousel-control-prev-icon,
-  .carousel-bawah .carousel-control-next-icon {
-    filter: invert(1); /* ikon jadi putih agar terlihat jelas */
-  }
-
-  @media (max-width: 768px) {
-    .carousel-bawah .carousel-control-prev {
-      left: 10px;
+    .novel-carousel-section .carousel-control-prev:hover,
+    .novel-carousel-section .carousel-control-next:hover {
+      background-color: rgba(130, 130, 130, 0.9);
     }
 
-    .carousel-bawah .carousel-control-next {
-      right: 10px;
+    .novel-carousel-section .carousel-control-prev-icon,
+    .novel-carousel-section .carousel-control-next-icon {
+      filter: invert(1);
     }
-  }
 
-  /* === Carousel BAWAH TAMBAHAN === */
-.carousel-bawah-tambahan .nav-bawah-tambahan {
-  width: 50px;
-  height: 50px;
-  background-color: rgba(229, 229, 229, 0.75); /* biru kontras */
-  border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-  transition: background-color 0.3s ease;
-}
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .novel-carousel-section .carousel-control-prev {
+        left: 10px;
+      }
 
-.carousel-bawah-tambahan .carousel-control-prev {
-  left: -70px;
-}
-
-.carousel-bawah-tambahan .carousel-control-next {
-  right: -70px;
-}
-
-.carousel-bawah-tambahan .nav-bawah-tambahan:hover {
-  background-color: rgba(176, 176, 176, 0.9);
-}
-
-.carousel-bawah-tambahan .carousel-control-prev-icon,
-.carousel-bawah-tambahan .carousel-control-next-icon {
-  filter: invert(1);
-}
-
-@media (max-width: 768px) {
-  .carousel-bawah-tambahan .carousel-control-prev {
-    left: 10px;
-  }
-
-  .carousel-bawah-tambahan .carousel-control-next {
-    right: 10px;
-  }
-}
+      .novel-carousel-section .carousel-control-next {
+        right: 10px;
+      }
+    }
