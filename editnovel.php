@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id'])) {
 
 $novel_id = $_GET['id'];
 
-// Ambil data novel
 $query = "SELECT * FROM stories WHERE id_novel='$novel_id'";
 $data = mysqli_fetch_assoc(mysqli_query($konek, $query));
 
@@ -20,7 +19,6 @@ if (!$data) {
 $success = "";
 $error = "";
 
-// Proses update
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $judul = mysqli_real_escape_string($konek, $_POST['judul']);
     $author = mysqli_real_escape_string($konek, $_POST['author']);
@@ -57,111 +55,94 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Novel</title>
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .navbar { background: #667eea; color: white; padding: 15px 30px; }
-        .navbar h1 { font-size: 24px; display: inline-block; }
-        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
-
-        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
-        .form-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .form-group { margin-bottom: 20px; }
-        label { font-weight: bold; display: block; margin-bottom: 8px; }
-        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; }
-
-        .btn { padding: 12px; border: none; font-weight: bold; border-radius: 5px; cursor: pointer; }
-        .btn-primary { background: #667eea; color: white; }
-        .btn-secondary { background: #777; color: white; }
-    </style>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
 </head>
-<body>
+<body class="bg-light">
 
-<div class="navbar">
-    <h1>Edit Novel</h1>
-    <a href="novelsaya.php">← Kembali</a>
-</div>
+<nav class="navbar navbar-dark bg-danger">
+    <div class="container-fluid justify-content-start gap-4">
+        <a href="novelsaya.php" class="btn btn-outline-light btn-sm">Kembali</a>
+        <span class="navbar-brand mb-0 h1">Edit Novel</span>
+    </div>
+</nav>
 
-<div class="container">
-    <div class="form-card">
+<div class="container my-4">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
 
         <?php if($success): ?>
-            <div style="padding:10px;background:#d4edda;color:#155724;margin-bottom:10px;">
-                <?= $success ?>
-            </div>
+            <div class="alert alert-success"><?= $success ?></div>
+        <?php endif; ?>
+        
+        <?php if($error): ?>
+            <div class="alert alert-danger"><?= $error ?></div>
         <?php endif; ?>
 
         <form method="POST">
-            <div class="form-group">
-                <label>Judul</label>
-                <input type="text" name="judul" value="<?= $data['judul'] ?>" required>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Judul</label>
+                <input type="text" name="judul" class="form-control" value="<?= htmlspecialchars($data['judul']) ?>" required>
             </div>
-
-            <div class="form-group">
-                <label>Author</label>
-                <input type="text" name="author" value="<?= $data['author'] ?>" required>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Author</label>
+                <input type="text" name="author" class="form-control" value="<?= htmlspecialchars($data['author']) ?>" required>
             </div>
-
-            <div class="form-group">
-                <label>Kategori</label>
-                <select name="kategori">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Kategori</label>
+                <select name="kategori" class="form-select">
                     <?php
                     $k = mysqli_query($konek, "SELECT * FROM kategori");
                     while ($row = mysqli_fetch_assoc($k)):
                     ?>
-                    <option value="<?= $row['id_kategori']; ?>" 
-                        <?= $row['id_kategori'] == $data['kategori_id'] ? 'selected' : '' ?>>
+                    <option value="<?= $row['id_kategori']; ?>" <?= $row['id_kategori'] == $data['kategori_id'] ? 'selected' : '' ?>>
                         <?= $row['nama_kategori']; ?>
                     </option>
                     <?php endwhile; ?>
                 </select>
             </div>
-
-            <div class="form-group">
-                <label>Deskripsi</label>
-                <textarea name="deskripsi"><?= $data['deskripsi'] ?></textarea>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Deskripsi</label>
+                <textarea name="deskripsi" class="form-control" rows="5"><?= htmlspecialchars($data['deskripsi']) ?></textarea>
             </div>
-
-            <div class="form-group">
-                <label>Cover Saat Ini</label>
-                <img src="<?= $data['cover_url'] ?>" width="150"><br><br>
-                <button type="button" onclick="coverWidget.open()" class="btn btn-primary">Upload Cover Baru</button>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Cover Saat Ini</label><br>
+                <img src="<?= $data['cover_url'] ?>" class="img-thumbnail mb-2" style="max-width: 200px;">
+                <br>
+                <button type="button" onclick="coverWidget.open()" class="btn btn-primary btn-sm">Upload Cover Baru</button>
             </div>
-
             <input type="hidden" name="cover_url" id="coverUrl" value="<?= $data['cover_url'] ?>">
             <input type="hidden" name="cover_public_id" id="coverPublicId" value="<?= $data['cover_id'] ?>">
-
-            <div class="form-group">
-                <label>File PDF Saat Ini</label>
-                <p><?= basename($data['pdf_url']); ?></p>
-                <button type="button" onclick="pdfWidget.open()" class="btn btn-primary">Upload PDF Baru</button>
+            <div class="mb-3">
+                <label class="form-label fw-bold">File PDF Saat Ini</label>
+                <p class="text-muted"><?= basename($data['pdf_url']); ?></p>
+                <button type="button" onclick="pdfWidget.open()" class="btn btn-primary btn-sm">Upload PDF Baru</button>
             </div>
-
             <input type="hidden" name="pdf_url" id="pdfUrl" value="<?= $data['pdf_url'] ?>">
             <input type="hidden" name="pdf_public_id" id="pdfPublicId" value="<?= $data['pdf_id'] ?>">
-
-            <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-            <a href="karya_saya.php" class="btn btn-secondary">Batal</a>
+            <div class="d-flex gap-2 mt-4">
+                <button type="submit" class="btn btn-primary flex-fill">Simpan Perubahan</button>
+                <a href="berandanew.html" class="btn btn-danger flex-fill">Batal</a>
+            </div>
         </form>
 
+        </div>
     </div>
 </div>
 
+<!-- Buat Upload Ke Cloudinary, Pusing Pokoknya -->
 <script>
 const coverWidget = cloudinary.createUploadWidget({
     cloudName: "<?= CLOUDINARY_CLOUD_NAME ?>",
     uploadPreset: "<?= CLOUDINARY_UPLOAD_PRESET ?>",
     clientAllowedFormats: ["jpg","png"],
 }, (err,res)=>{
-    if(res.event === "success"){
-        document.getElementById("coverUrl").value = res.info.secure_url;
-        document.getElementById("coverPublicId").value = res.info.public_id;
+    if(res.event === "success"){ //kalo sukses upload ngambil link nya buat di simpen di database
+        document.getElementById("coverUrl").value = res.info.secure_url; //ini link
+        document.getElementById("coverPublicId").value = res.info.public_id; //ini publicid biar nanti bisa di delete
     }
 });
-
+// sama ae bedane buat pdf
 const pdfWidget = cloudinary.createUploadWidget({
     cloudName: "<?= CLOUDINARY_CLOUD_NAME ?>",
     uploadPreset: "<?= CLOUDINARY_UPLOAD_PRESET ?>",
@@ -174,5 +155,6 @@ const pdfWidget = cloudinary.createUploadWidget({
 });
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -30,9 +30,7 @@ $novel = mysqli_fetch_assoc($data);
 $cover_public_id = $novel['cover_id'];
 $pdf_public_id   = $novel['pdf_id'];
 
-// -----------------------------
-// FUNGSI HAPUS CLOUDINARY
-// -----------------------------
+// FUNGSI HAPUS CLOUDINARY Ea (Ini sulit cik)
 function hapusCloudinary($public_id, $resource_type)
 {
     if (!$public_id) return;
@@ -62,26 +60,20 @@ function hapusCloudinary($public_id, $resource_type)
     return false;
 }
 
-// -----------------------------
-// HAPUS COVER
-// -----------------------------
+// HAPUS COVER Ea
 if (!empty($cover_public_id)) {
     hapusCloudinary($cover_public_id, "image");
 }
 
-// -----------------------------
-// HAPUS PDF
-// -----------------------------
+// HAPUS PDF Ea
 if (!empty($pdf_public_id)) {
     hapusCloudinary($pdf_public_id, "raw");
 }
 
-// -----------------------------
-// HAPUS DATA NOVEL DI DATABASE
-// -----------------------------
-$delete_sql = "DELETE FROM stories WHERE id_novel='$novel_id' AND user_id='$user_id'";
+// HAPUS DATA NOVEL DI DATABASE Ea
+$query = "DELETE FROM stories WHERE id_novel='$novel_id' AND user_id=$user_id";
 
-if (mysqli_query($konek, $delete_sql)) {
+if (mysqli_query($konek, $query)) {
     echo "<script>alert('Novel berhasil dihapus!'); window.location='novelsaya.php';</script>";
 } else {
     echo "Gagal menghapus novel: " . mysqli_error($konek);

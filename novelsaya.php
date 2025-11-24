@@ -21,58 +21,62 @@ $result = mysqli_query($konek, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karya Saya - Web Novel</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .navbar { background: #667eea; color: white; padding: 15px 30px; }
-        .navbar h1 { font-size: 24px; display: inline-block; }
-        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
-
-        .container { max-width: 900px; margin: 30px auto; padding: 0 20px; }
-        .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; gap: 20px; }
-        .card img { width: 120px; border-radius: 5px; }
-        .card-info { flex: 1; }
-        .btn { display: inline-block; padding: 8px 14px; border-radius: 5px; font-weight: bold; text-decoration: none; cursor: pointer; }
-        .btn-edit { background: #667eea; color: white; }
-        .btn-delete { background: #e53e3e; color: white; }
-    </style>
+    <title>Karya Anda</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-<div class="navbar">
-    <h1>📚 Karya Saya</h1>
-    <a href="berandanew.html">← Kembali</a>
-</div>
+<!-- Iki Navbar -->
+<nav class="navbar navbar-dark bg-danger">
+    <div class="container-fluid justify-content-start gap-4">
+        <a href="berandanew.html" class="btn btn-outline-light btn-sm">Kembali</a>
+        <span class="navbar-brand mb-0 h1">Karya Anda</span>
+    </div>
+</nav>
 
-<div class="container">
-
-    <h2>Daftar Karya Anda</h2>
-    <br>
-
-    <?php while ($row = mysqli_fetch_assoc($result)): ?>
-        <div class="card">
-            <img src="<?php echo $row['cover_url']; ?>" alt="Cover">
-
-            <div class="card-info">
-                <h3><?php echo $row['judul']; ?></h3>
-                <p><b>Author:</b> <?php echo $row['author']; ?></p>
-                <p><b>Kategori:</b> <?php echo $row['kategori_nama']; ?></p>
-                <p><?php echo substr($row['deskripsi'], 0, 120); ?>...</p>
-
-                <br>
-
-                <a href="editnovel.php?id=<?php echo $row['id_novel']; ?>" class="btn btn-edit">✏ Edit</a>
-                <a href="hapusnovel.php?id=<?php echo $row['id_novel']; ?>"
-                   class="btn btn-delete"
-                   onclick="return confirm('Yakin ingin menghapus novel ini?');">
-                   🗑 Hapus
-                </a>
+<!-- Iki Isi konten -->
+<div class="container my-4">
+    <h2 class="mb-4">Daftar Karya Anda</h2>
+    <?php while ($data = mysqli_fetch_assoc($result)){ ?>
+        <div class="card mb-3 shadow-sm">
+            <div class="row g-0">
+                <div class="col-md-2">
+                    <img src="<?= $data['cover_url']; ?>" 
+                         class="img-fluid rounded-start h-100 object-fit-cover" 
+                         alt="Cover">
+                </div>
+                <div class="col-md-10">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $data['judul']; ?></h5>
+                        <p class="card-text mb-1">
+                            <strong>Author:</strong> <?= $data['author']; ?>
+                        </p>
+                        <p class="card-text mb-2">
+                            <strong>Kategori:</strong> 
+                            <span class="badge bg-secondary"><?= $data['kategori_nama']; ?></span>
+                        </p>
+                        <p class="card-text text-muted">
+                            <?= substr($data['deskripsi'], 0, 120); ?>...
+                        </p>
+                        
+                        <div class="mt-3">
+                            <a href="editnovel.php?id=<?= $data['id_novel']; ?>" 
+                               class="btn btn-primary btn-sm">
+                               Edit
+                            </a>
+                            <a href="hapusnovel.php?id=<?= $data['id_novel']; ?>"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Yakin ingin menghapus novel ini?');">
+                               Hapus
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    <?php endwhile; ?>
-
+    <?php } ?>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

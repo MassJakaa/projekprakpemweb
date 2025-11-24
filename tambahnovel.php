@@ -17,15 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $deskripsi = mysqli_real_escape_string($konek, $_POST['deskripsi']);
     $user_id = $_SESSION['user_id'];
     
-    // Upload Cover ke Cloudinary
     $cover_url = '';
     $cover_public_id = '';
     if (isset($_POST['cover_url']) && !empty($_POST['cover_url'])) {
-        $cover_url = $_POST['cover_url']; // URL dari Cloudinary widget
+        $cover_url = $_POST['cover_url'];
         $cover_public_id = $_POST['cover_public_id'];
     }
     
-    // Upload PDF ke Cloudinary
     $pdf_url = '';
     $pdf_public_id = '';
     if (isset($_POST['pdf_url']) && !empty($_POST['pdf_url'])) {
@@ -33,13 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $pdf_public_id = $_POST['pdf_public_id'];
     }
     
-    // Insert ke database
-    $query = "INSERT INTO stories (user_id, kategori_id, judul, author, deskripsi,  cover_url, cover_id, pdf_url, pdf_id) 
+    $query = "INSERT INTO stories (user_id, kategori_id, judul, author, deskripsi, cover_url, cover_id, pdf_url, pdf_id) 
               VALUES ('$user_id', '$kategori', '$judul', '$author', '$deskripsi', '$cover_url', '$cover_public_id', '$pdf_url', '$pdf_public_id')";
     
     if (mysqli_query($konek, $query)) {
         $success = "Novel berhasil ditambahkan!";
-        // Redirect setelah 2 detik
         header("refresh:2;url=berandanew.html");
     } else {
         $error = "Gagal menambahkan novel: " . mysqli_error($konek);
@@ -51,183 +47,153 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Novel - Web Novel</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; }
-        .navbar { background: #667eea; color: white; padding: 15px 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .navbar h1 { font-size: 24px; }
-        .navbar a { color: white; text-decoration: none; margin-left: 20px; }
-        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
-        .form-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h2 { color: #333; margin-bottom: 25px; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; color: #555; font-weight: bold; }
-        input[type="text"], textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; font-family: Arial, sans-serif; }
-        textarea { min-height: 120px; resize: vertical; }
-        input:focus, textarea:focus, select:focus { outline: none; border-color: #667eea; }
-        .upload-area { border: 2px dashed #ddd; border-radius: 5px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; margin-top: 8px; }
-        .upload-area:hover { border-color: #667eea; background: #f9f9f9; }
-        .upload-area.active { border-color: #667eea; background: #e8eaf6; }
-        .upload-icon { font-size: 48px; color: #999; margin-bottom: 10px; }
-        .upload-text { color: #666; margin-bottom: 5px; }
-        .upload-hint { color: #999; font-size: 12px; }
-        .preview { margin-top: 15px; }
-        .preview img { max-width: 200px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .file-name { color: #667eea; font-weight: bold; margin-top: 10px; }
-        .btn-group { display: flex; gap: 15px; margin-top: 30px; }
-        .btn { flex: 1; padding: 12px 24px; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; }
-        .btn-primary { background: #667eea; color: white; }
-        .btn-primary:hover { background: #5568d3; }
-        .btn-secondary { background: #999; color: white; }
-        .btn-secondary:hover { background: #777; }
-        .alert { padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-        .alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .alert-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .required { color: red; }
-    </style>
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    <title>Tambah Novel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
 </head>
-<body>
-    <div class="navbar">
-        <h1>📚 Web Novel</h1>
-        <a href="index.php">← Kembali</a>
-    </div>
+<body class="bg-light">
 
-    <div class="container">
-        <div class="form-card">
-            <h2>Tambah Novel Baru</h2>
+<nav class="navbar navbar-dark bg-danger">
+    <div class="container-fluid justify-content-start gap-4">
+        <a href="berandanew.html" class="btn btn-outline-light btn-sm">Kembali</a>
+        <span class="navbar-brand mb-0 h1">Tambah Novel Baru</span>
+    </div>
+</nav>
+
+<div class="container my-4" style="max-width: 800px;">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
             
             <?php if ($success): ?>
-                <div class="alert alert-success"><?php echo $success; ?></div>
+                <div class="alert alert-success"><?= $success ?></div>
             <?php endif; ?>
             
             <?php if ($error): ?>
-                <div class="alert alert-error"><?php echo $error; ?></div>
+                <div class="alert alert-danger"><?= $error ?></div>
             <?php endif; ?>
 
-            <form method="POST" id="novelForm">
-                <div class="form-group">
-                    <label>Judul Novel <span class="required">*</span></label>
-                    <input type="text" name="judul" required>
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Judul Novel <span class="text-danger">*</span></label>
+                    <input type="text" name="judul" class="form-control" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Author <span class="required">*</span></label>
-                    <input type="text" name="author" required>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Author <span class="text-danger">*</span></label>
+                    <input type="text" name="author" class="form-control" required>
                 </div>
 
-                <div class="form-group">
-                    <label>Kategori</label>
-                    <select name="kategori">
-                        <option value="1">Romance</option>
-                        <option value="2">Fantasy</option>
-                        <option value="3">Mystery</option>
-                        <option value="4">Horror</option>
-                        <option value="5">Sci-Fi</option>
-                        <option value="6">Action</option>
-                        <option value="7">Drama</option>
-                        <option value="8">Comedy</option>
-                        <option value="9">Adventure</option>
-                        <option value="10">Thriler</option>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Kategori</label>
+                    <select name="kategori" class="form-select">
+                        <?php
+                        $kat = mysqli_query($konek, "SELECT * FROM kategori");
+                        while ($k = mysqli_fetch_assoc($kat)){
+                            echo '<option value="'.$k['id_kategori'].'">'.$k['nama_kategori'].'</option>';
+                        }
+                        ?>
                     </select>
                 </div>
-
-                <div class="form-group">
-                    <label>Deskripsi</label>
-                    <textarea name="deskripsi" placeholder="Ceritakan tentang novel Anda..."></textarea>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Deskripsi</label>
+                    <textarea name="deskripsi" class="form-control" rows="5" placeholder="Ceritakan tentang novel Anda..."></textarea>
                 </div>
-
-                <div class="form-group">
-                    <label>Cover Novel <span class="required">*</span></label>
-                    <div class="upload-area" id="coverUpload">
-                        <div class="upload-icon">🖼️</div>
-                        <div class="upload-text">Klik untuk upload cover</div>
-                        <div class="upload-hint">Format: JPG, PNG (Max 10MB)</div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Cover Novel <span class="text-danger">*</span></label>
+                    <div class="border rounded p-4 text-center" style="cursor: pointer; border-style: dashed !important;" id="coverUpload">
+                        <div style="font-size: 48px;">🖼️</div>
+                        <div class="mt-2">Klik untuk upload cover</div>
+                        <small class="text-muted">Format: JPG, PNG (Max 10MB)</small>
                     </div>
-                    <div class="preview" id="coverPreview"></div>
+                    <div id="coverPreview" class="mt-3"></div>
                     <input type="hidden" name="cover_url" id="coverUrl">
                     <input type="hidden" name="cover_public_id" id="coverPublicId">
                 </div>
-
-                <div class="form-group">
-                    <label>File PDF Novel <span class="required">*</span></label>
-                    <div class="upload-area" id="pdfUpload">
-                        <div class="upload-icon">📄</div>
-                        <div class="upload-text">Klik untuk upload PDF</div>
-                        <div class="upload-hint">Format: PDF (Max 50MB)</div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">File PDF Novel <span class="text-danger">*</span></label>
+                    <div class="border rounded p-4 text-center" style="cursor: pointer; border-style: dashed !important;" id="pdfUpload">
+                        <div style="font-size: 48px;">📄</div>
+                        <div class="mt-2">Klik untuk upload PDF</div>
+                        <small class="text-muted">Format: PDF (Max 50MB)</small>
                     </div>
-                    <div class="preview" id="pdfPreview"></div>
+                    <div id="pdfPreview" class="mt-3"></div>
                     <input type="hidden" name="pdf_url" id="pdfUrl">
                     <input type="hidden" name="pdf_public_id" id="pdfPublicId">
                 </div>
-
-                <div class="btn-group">
-                    <button type="submit" class="btn btn-primary">Simpan Novel</button>
-                    <a href="berandanew.html" class="btn btn-secondary">Batal</a>
+                <div class="d-flex gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary flex-fill">Simpan Novel</button>
+                    <a href="berandanew.html" class="btn btn-danger flex-fill">Batal</a>
                 </div>
             </form>
         </div>
     </div>
+</div>
 
-    <script>
-        // Cloudinary Upload Widget untuk Cover
-        const coverWidget = cloudinary.createUploadWidget({
-            cloudName: '<?php echo CLOUDINARY_CLOUD_NAME; ?>',
-            uploadPreset: '<?php echo CLOUDINARY_UPLOAD_PRESET; ?>',
-            sources: ['local', 'url'],
-            multiple: false,
-            maxFileSize: 10000000,
-            clientAllowedFormats: ['jpg', 'jpeg', 'png'],
-            folder: 'covers' // Jika di preset sudah set folder 'web_novel', hapus prefix web_novel/
-        }, (error, result) => {
-            if (!error && result && result.event === "success") {
-                document.getElementById('coverUrl').value = result.info.secure_url;
-                document.getElementById('coverPublicId').value = result.info.public_id;
-                document.getElementById('coverPreview').innerHTML = 
-                    `<img src="${result.info.secure_url}" alt="Cover Preview">`;
-            }
-        });
+<script>
+// buat upload cover novel, sulit bet ini ea
+const coverWidget = cloudinary.createUploadWidget({
+    cloudName: '<?= CLOUDINARY_CLOUD_NAME ?>',
+    uploadPreset: '<?= CLOUDINARY_UPLOAD_PRESET ?>',
+    sources: ['local', 'url'], // bisa dari komputer atau link url
+    multiple: false, // cuma bisa upload 1 file
+    maxFileSize: 10000000, // maksimal 10MB
+    clientAllowedFormats: ['jpg', 'jpeg', 'png'], // format yang dibolehkan
+    folder: 'covers' // simpan di folder covers
+}, (error, result) => {
+    // kalo upload sukses
+    if (!error && result && result.event === "success") {
+       
+        document.getElementById('coverUrl').value = result.info.secure_url; // simpan url gambar buat database
+        document.getElementById('coverPublicId').value = result.info.public_id; // simpan id bisr bisa hapus file  
+        document.getElementById('coverPreview').innerHTML =  // tampilkan preview gambar
+            `<img src="${result.info.secure_url}" class="img-thumbnail" style="max-width: 200px;">`;
+    }
+});
 
-        document.getElementById('coverUpload').addEventListener('click', () => {
-            coverWidget.open();
-        });
+// pas diklik area cover, buka widget upload
+document.getElementById('coverUpload').addEventListener('click', () => {
+    coverWidget.open();
+});
 
-        // Cloudinary Upload Widget untuk PDF
-        const pdfWidget = cloudinary.createUploadWidget({
-            cloudName: '<?php echo CLOUDINARY_CLOUD_NAME; ?>',
-            uploadPreset: '<?php echo CLOUDINARY_UPLOAD_PRESET; ?>',
-            sources: ['local'],
-            multiple: false,
-            maxFileSize: 50000000,
-            clientAllowedFormats: ['pdf'],
-            folder: 'pdfs' // Jika di preset sudah set folder 'web_novel', hapus prefix web_novel/
-        }, (error, result) => {
-            if (!error && result && result.event === "success") {
-                document.getElementById('pdfUrl').value = result.info.secure_url;
-                document.getElementById('pdfPublicId').value = result.info.public_id;
-                document.getElementById('pdfPreview').innerHTML = 
-                    `<div class="file-name">✓ ${result.info.original_filename}</div>`;
-            }
-        });
+// sama kaya di atas tapi buat pdf
+const pdfWidget = cloudinary.createUploadWidget({
+    cloudName: '<?= CLOUDINARY_CLOUD_NAME ?>',
+    uploadPreset: '<?= CLOUDINARY_UPLOAD_PRESET ?>',
+    sources: ['local'], // cuma dari komputer
+    multiple: false, //1 file
+    maxFileSize: 50000000, // max 50MB untuk pdf
+    clientAllowedFormats: ['pdf'], // cuma bisa pdf
+    folder: 'pdfs'
+}, (error, result) => {
+    if (!error && result && result.event === "success") {
+        document.getElementById('pdfUrl').value = result.info.secure_url;
+        document.getElementById('pdfPublicId').value = result.info.public_id;
+        document.getElementById('pdfPreview').innerHTML = // tampilkan nama file yang udah diupload
+            `<div class="text-success fw-bold">✓ ${result.info.original_filename}</div>`;
+    }
+});
 
-        document.getElementById('pdfUpload').addEventListener('click', () => {
-            pdfWidget.open();
-        });
+document.getElementById('pdfUpload').addEventListener('click', () => {
+    pdfWidget.open();
+});
 
-        // Validasi form
-        document.getElementById('novelForm').addEventListener('submit', (e) => {
-            if (!document.getElementById('coverUrl').value) {
-                alert('Harap upload cover novel!');
-                e.preventDefault();
-                return false;
-            }
-            if (!document.getElementById('pdfUrl').value) {
-                alert('Harap upload file PDF novel!');
-                e.preventDefault();
-                return false;
-            }
-        });
-    </script>
+// validasi sebelum submit form
+document.getElementById('novelForm').addEventListener('submit', (e) => {
+    // cek apakah cover sudah diupload
+    if (!document.getElementById('coverUrl').value) {
+        alert('Harap upload cover novel!');
+        e.preventDefault();
+        return false;
+    }
+    // cek apakah pdf sudah diupload
+    if (!document.getElementById('pdfUrl').value) {
+        alert('Harap upload file PDF novel!');
+        e.preventDefault();
+        return false;
+    }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
