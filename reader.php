@@ -13,8 +13,6 @@ if ($id <= 0) {
     exit;
 }
 
-
-
 // ambil pdf_url & judul dari DB (prepared statement)
 $stmt = $konek->prepare("SELECT judul, pdf_url FROM stories WHERE id_novel = ? LIMIT 1");
 $stmt->bind_param("i", $id);
@@ -58,22 +56,25 @@ if (preg_match('#^https?://#i', $pdf_url)) {
   <style>html,body{height:100%;margin:0} .topbar{height:56px} .viewer{width:100%;height:calc(100vh - 56px);border:0}</style>
 </head>
 <body>
-  <nav class="navbar navbar-light bg-light topbar">
+  <nav class="navbar navbar-light bg-danger topbar">
     <div class="container-fluid d-flex align-items-center justify-content-between">
       <?php
         if ($_GET['from'] === 'kategori') {
       ?>
-          <a href="detailnovel.php?id=<?= $id; ?>&from=<?= $_GET['from'] ?>&kategori_id=<?= $_GET['kategori_id'] ?>&kategori_nama=<?= $_GET['kategori_nama'] ?>" class="btn btn-outline-danger btn-sm">Kembali</a>
+          <a href="detailnovel.php?id=<?= $id; ?>&from=<?= $_GET['from'] ?>&kategori_id=<?= $_GET['kategori_id'] ?>&kategori_nama=<?= $_GET['kategori_nama'] ?>" class="btn btn-outline-light btn-sm">Kembali</a>
+      <?php
+        } elseif ($_GET['from'] === 'cari') {
+      ?>
+          <a href="detailnovel.php?id=<?= $id; ?>&from=<?= $_GET['from'] ?>&search=<?= urlencode($_GET['search']) ?>" class="btn btn-outline-light btn-sm">Kembali</a>
       <?php
         ;}else{
       ?>
-          <a href="detailnovel.php?id=<?= $id; ?>&from=<?= $_GET['from'] ?>" class="btn btn-outline-danger btn-sm">Kembali</a>
+          <a href="detailnovel.php?id=<?= $id; ?>&from=<?= $_GET['from'] ?>" class="btn btn-outline-light btn-sm">Kembali</a>
       <?php
         ;}
       ?>
-      <div class="text-truncate" style="max-width:60%;"><strong><?php echo e($row['judul']); ?></strong></div>
+      <div class="text-truncate text-white" style="max-width:60%;"><strong><?php echo e($row['judul']); ?></strong></div>
       <div>
-        <a href="<?php echo e($iframe_src); ?>" class="btn btn-primary btn-sm" download>Unduh</a>
       </div>
     </div>
   </nav>

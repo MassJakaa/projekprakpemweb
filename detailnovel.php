@@ -55,6 +55,10 @@ if (!$novel) {
                 ?>
                 <a href="reader.php?id=<?= $novel['id_novel']; ?>&from=<?= $_GET['from'] ?>&kategori_id=<?= $_GET['kategori_id'] ?>&kategori_nama=<?= $_GET['kategori_nama'] ?>" class="btn btn-primary">Baca Novel</a>
                 <?php
+                    } elseif ($_GET['from'] === 'cari') {
+                ?>
+                <a href="reader.php?id=<?= $novel['id_novel']; ?>&from=<?= $_GET['from'] ?>&search=<?= urlencode($_GET['search']) ?>" class="btn btn-primary">Baca Novel</a>
+                <?php
                     ;}else{
                 ?>
                 <a href="reader.php?id=<?= $novel['id_novel']; ?>&from=<?= $_GET['from'] ?>" class="btn btn-primary">Baca Novel</a>
@@ -97,6 +101,10 @@ if (!$novel) {
     </div>
 </div>
 
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <p class="mb-0">&copy; 2024 The Read Devils. All rights reserved.</p>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function goBack() {
@@ -112,8 +120,9 @@ function goBack() {
         window.location.href = 'kategori.php?kategori_id=' + kategoriId + '&kategori_nama=' + kategoriNama;
     } else if (from === 'novelsaya') {
         window.location.href = 'novelsaya.php';
-    } else if (from === 'seluruhnovel') {
-        window.location.href = 'seluruhnovel.php';
+    } else if (from === 'cari') {
+        const search = urlParams.get('search');
+        window.location.href = 'cari.php?search=' + search;
     } else if (document.referrer && document.referrer.indexOf('reader.php') !== -1) {
         // kalo dari reader tapi ga ada from, default ke seluruhnovel
         window.location.href = 'seluruhnovel.php';

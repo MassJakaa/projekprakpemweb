@@ -7,9 +7,14 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// ambil semua kategori
+$kategori_query = "SELECT * FROM kategori ORDER BY nama_kategori ASC";
+$kategori_result = mysqli_query($konek, $kategori_query);
+
 $user_id = $_SESSION['user_id'];
 $kategori_id = $_GET['kategori_id'];
 $kategori_nama = $_GET['kategori_nama'];
+
 // pagination setup
 $limit = 5; // jumlah novel per halaman
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -38,18 +43,75 @@ $result = mysqli_query($konek, $query);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kategori</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column" style="min-height: 100vh;">
 
-<nav class="navbar navbar-dark bg-danger">
-    <div class="container-fluid justify-content-start gap-4">
-        <a href="berandanew.php" class="btn btn-outline-light btn-sm">Kembali</a>
-        <span class="navbar-brand mb-0 h1"><?= $kategori_nama ?></span>
-    </div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger border-bottom sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="berandanew.php">
+            <img src="gambar/MU.png" alt="Logo" height="50" class="me-2">
+            <span class="fs-4">The Read Devils</span>
+        </a>
+
+        <!-- Kategori Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                Kategori
+            </button>
+            <ul class="dropdown-menu">
+                <li><h6 class="dropdown-header">KATEGORI</h6></li>
+                <li><hr class="dropdown-divider"></li>
+                <?php 
+                mysqli_data_seek($kategori_result, 0);
+                while($kat = mysqli_fetch_assoc($kategori_result)): 
+                ?>
+                    <li><a class="dropdown-item" href="kategori.php?kategori_id=<?= $kat['id_kategori'] ?>&kategori_nama=<?= $kat['nama_kategori'] ?>"><?= $kat['nama_kategori'] ?></a></li>
+                <?php endwhile; ?>
+            </ul>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <form class="d-flex" role="search" action="cari.php" method="GET">
+                <input type="search" name="search" class="form-control" placeholder="Cari novel..." aria-label="Search">
+            </form>
+        </div>
+
+        <!-- Right Side: Create & User -->
+        <div class="d-flex align-items-center gap-3">
+            <?php if(isset($_SESSION['user_id'])): ?>
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Create
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="novelsaya.php">Karya Anda</a></li>
+                    <li><a class="dropdown-item" href="tambahnovel.php">Tambah Novel</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="#" class="d-block" data-bs-toggle="dropdown">
+                    <img src="https://github.com/mdo.png" alt="User" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="profil.php">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="logout.php">Log out</a></li>
+                </ul>
+            </div>
+            <?php else: ?>
+            <a href="login.php" class="btn btn-light">Login</a>
+            <a href="register.php" class="btn btn-outline-light">Register</a>
+            <?php endif; ?>
+            </div>
+        </div>
 </nav>
 
-<div class="container my-4">
+<div class="container my-4 flex-grow-1">
     <h2 class="mb-4">Daftar Novel Dengan Kategori <?= $kategori_nama ?></h2>
     
     <?php 
@@ -63,7 +125,7 @@ $result = mysqli_query($konek, $query);
         <div class="row g-0">
             <div class="col-md-2">
                 <div class="ratio" style="--bs-aspect-ratio:134%;">
-                    <a href="detailnovel.php?id=<?php echo (int)$data['id_novel']; ?>&from=kategorikategori_id=<?= $kategori_id ?>&kategori_nama=<?= $kategori_nama ?>">
+                    <a href="detailnovel.php?id=<?php echo (int)$data['id_novel']; ?>&from=kategori&kategori_id=<?= $kategori_id ?>&kategori_nama=<?= $kategori_nama ?>">
                         <img src="<?php echo htmlspecialchars($data['cover_url']); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?php echo htmlspecialchars($data['judul']); ?>">
                     </a>
                 </div>
@@ -97,7 +159,7 @@ $result = mysqli_query($konek, $query);
         <ul class="pagination justify-content-center">
             <!-- tombol Previous -->
             <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
+                <a class="page-link" href="?kategori_id=<?= $kategori_id ?>&kategori_nama=<?= $kategori_nama ?>&page=<?= $page - 1 ?>">Previous</a>
             </li>
             
             <?php 
@@ -106,7 +168,7 @@ $result = mysqli_query($konek, $query);
                 if ($i == 1 || $i == $total_pages || ($i >= $page - 2 && $i <= $page + 2)):
             ?>
                 <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                    <a class="page-link" href="?kategori_id=<?= $kategori_id ?>&kategori_nama=<?= $kategori_nama ?>&page=<?= $i ?>"><?= $i ?></a>
                 </li>
             <?php 
                 elseif ($i == $page - 3 || $i == $page + 3):
@@ -117,12 +179,17 @@ $result = mysqli_query($konek, $query);
             
             <!-- tombol Next -->
             <li class="page-item <?= $page >= $total_pages ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+                <a class="page-link" href="?kategori_id=<?= $kategori_id ?>&kategori_nama=<?= $kategori_nama ?>&page=<?= $page + 1 ?>">Next</a>
             </li>
         </ul>
     </nav>
     <?php endif; ?>
 </div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-auto">
+    <p class="mb-0">&copy; 2024 The Read Devils. All rights reserved.</p>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

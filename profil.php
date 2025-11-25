@@ -23,30 +23,38 @@ $user = mysqli_fetch_assoc($query);
 </head>
 <body class="bg-body-tertiary">
 
-  <div class="container py-5">
-    <div class="card mx-auto" style="max-width: 500px;">
-      <div class="card-body text-center">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <a href="berandanew.php" class="btn btn-outline-danger btn-sm">← Kembali ke Beranda</a>
-        </div>
-        <img src="https://github.com/mdo.png" alt="Avatar" class="rounded-circle mb-3" width="120" height="120">
-        <h4 class="card-title mb-1"><?= htmlspecialchars($user['username']); ?></h4>
-        <p class="text-muted mb-3"><?= htmlspecialchars($user['email']); ?></p>
+<nav class="navbar navbar-dark bg-danger">
+    <div class="container-fluid justify-content-start gap-4">
+        <a href="berandanew.php" class="btn btn-outline-light btn-sm">Kembali</a>
+        <span class="navbar-brand mb-0 h1">Profil</span>
+    </div>
+</nav>
 
-        <ul class="list-group list-group-flush text-start mb-3">
-          <li class="list-group-item">ID: <?= $user['id_user']; ?></li>
-          <li class="list-group-item">Nama: <?= htmlspecialchars($user['username']); ?></li>
-          <li class="list-group-item">Umur: <?= htmlspecialchars($user['umur']); ?></li>
-          <li class="list-group-item">Email: <?= htmlspecialchars($user['email']); ?></li>
-        </ul>
+<div class="container py-5">
+  <div class="card mx-auto" style="max-width: 500px;">
+    <div class="card-body text-center">
+      <img src="https://github.com/mdo.png" alt="Avatar" class="rounded-circle mb-3" width="120" height="120">
+      <h4 class="card-title mb-1"><?= htmlspecialchars($user['username']); ?></h4>
+      <p class="text-muted mb-3"><?= htmlspecialchars($user['email']); ?></p>
 
-        <form action="logout.php" method="post">
-          <button type="submit" class="btn btn-danger w-100">Logout</button>
-        </form>
-      </div>
+      <ul class="list-group list-group-flush text-start mb-3">
+        <li class="list-group-item">ID: <?= $user['id_user']; ?></li>
+        <li class="list-group-item">Nama: <?= htmlspecialchars($user['username']); ?></li>
+        <li class="list-group-item">Umur: <?= htmlspecialchars($user['umur']); ?></li>
+        <li class="list-group-item">Email: <?= htmlspecialchars($user['email']); ?></li>
+      </ul>
+
+      <form action="logout.php" method="post">
+        <button type="submit" class="btn btn-danger w-100">Logout</button>
+      </form>
     </div>
   </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <p class="mb-0">&copy; 2024 The Read Devils. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

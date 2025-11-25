@@ -1,18 +1,23 @@
 /* === SEARCH BAR === */
     .search-container {
       flex: 1;
-      justify-content: center;
       display: flex;
+      justify-content: center;
+      margin: 0 20px;
+    }
+
+    .search-container form {
+      width: 100%;
+      max-width: 500px;
     }
 
     .search-container input {
       width: 100%;
-      max-width: 700px;
     }
 
     /* === CAROUSEL HERO (PROMO) === */
     :root {
-      --carousel-height: 400px;
+      --carousel-height: auto;
     }
 
     #hero-promo-carousel {
@@ -20,14 +25,11 @@
       margin: 0 auto;
     }
 
-    #hero-promo-carousel .carousel-inner {
-      height: var(--carousel-height);
-    }
-
     #hero-promo-carousel .carousel-inner img {
       object-fit: cover;
-      height: 100%;
+      height: auto;
       width: 100%;
+      aspect-ratio: 16 / 9;
       border-radius: 10px;
     }
 
@@ -42,7 +44,7 @@
     }
 
     .novel-card .card-img-top {
-      aspect-ratio: 3/4;
+      aspect-ratio: 2/3;
       object-fit: cover;
     }
 

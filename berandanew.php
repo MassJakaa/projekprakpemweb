@@ -47,15 +47,16 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-danger border-bottom sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
-        <img src="gambar/MU.png" alt="Logo" height="50">
+      <a class="navbar-brand d-flex align-items-center fw-bold" href="berandanew.php">
+        <img src="gambar/MU.png" alt="Logo" height="50" class="me-2">
+        <span class="fs-4">The Read Devils</span>
       </a>
 
       <!-- Kategori Dropdown -->
       <div class="dropdown">
-        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
           Kategori
         </button>
         <ul class="dropdown-menu">
@@ -71,8 +72,8 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
       </div>
 
       <!-- Search Bar -->
-      <div class="search-container mx-3">
-        <form class="d-flex" role="search" action="seluruhnovel.php" method="GET">
+      <div class="search-container">
+        <form class="d-flex" role="search" action="cari.php" method="GET">
           <input type="search" name="search" class="form-control" placeholder="Cari novel..." aria-label="Search">
         </form>
       </div>
@@ -81,7 +82,7 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
       <div class="d-flex align-items-center gap-3">
         <?php if(isset($_SESSION['user_id'])): ?>
         <div class="dropdown">
-          <button class="btn btn-danger dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
             Create
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -101,8 +102,8 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
           </ul>
         </div>
         <?php else: ?>
-        <a href="login.php" class="btn btn-primary">Login</a>
-        <a href="register.php" class="btn btn-outline-primary">Register</a>
+        <a href="login.php" class="btn btn-light">Login</a>
+        <a href="register.php" class="btn btn-outline-light">Register</a>
         <?php endif; ?>
       </div>
     </div>
@@ -117,15 +118,15 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
         <button type="button" data-bs-target="#hero-promo-carousel" data-bs-slide-to="2"></button>
       </div>
 
-      <div class="carousel-inner">
+      <div class="carousel-inner" style="overflow: hidden; border-radius: 10px;">
         <div class="carousel-item active">
-          <img src="https://picsum.photos/1000/400?random=hero1" class="d-block w-100" alt="Promo 1">
+          <img src="gambar/promo1.jpg" class="d-block w-100" alt="Promo 1" style="height: auto; aspect-ratio: 16/9; object-fit: cover; display: block;">
         </div>
         <div class="carousel-item">
-          <img src="https://picsum.photos/1000/400?random=hero2" class="d-block w-100" alt="Promo 2">
+          <img src="gambar/promo2.jpg" class="d-block w-100" alt="Promo 2" style="height: auto; aspect-ratio: 16/9; object-fit: cover; display: block;">
         </div>
         <div class="carousel-item">
-          <img src="https://picsum.photos/1000/400?random=hero3" class="d-block w-100" alt="Promo 3">
+          <img src="gambar/promo3.jpg" class="d-block w-100" alt="Promo 3" style="height: auto; aspect-ratio: 16/9; object-fit: cover; display: block;">
         </div>
       </div>
 
@@ -141,9 +142,9 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
   </section>
 
   <!-- CAROUSEL 2:  Novel Pilihan -->
-  <section class="novel-carousel-section" style="background-color: #f8f9fa;">
-    <div class="container position-relative">
-      <h2 class="text-center">Novel Pilihan</h2>
+  <section class="novel-carousel-section bg-light py-5">
+    <div class="container novel-carousel-section">
+      <h2 class="text-center text-danger fw-bold mb-4">Novel Pilihan</h2>
 
       <div id="recommended-novels-carousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -154,14 +155,14 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
           <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
             <div class="row g-4">
               <?php foreach($chunk as $novel): ?>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="card novel-card shadow-sm">
                   <a href="detailnovel.php?id=<?php echo (int)$novel['id_novel']; ?>&from=berandanew">
                     <img src="<?= $novel['cover_url'] ?>" class="card-img-top" alt="<?= htmlspecialchars($novel['judul']) ?>">
                   </a>
                   <div class="card-body text-center">
                     <h5 class="card-title"><?= htmlspecialchars($novel['judul']) ?></h5>
-                    <a href="detailnovel.php?id=<?= $novel['id_novel'] ?>&from=berandanew" class="btn btn-primary">Baca Sekarang</a>
+                    <a href="detailnovel.php?id=<?= $novel['id_novel'] ?>&from=berandanew" class="btn btn-danger">Baca Sekarang</a>
                   </div>
                 </div>
               </div>
@@ -182,9 +183,9 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
   </section>
 
   <!-- CAROUSEL 3: Novel Terbaru -->
-  <section class="novel-carousel-section" style="background-color: #ffffff;">
-    <div class="container position-relative">
-      <h2 class="text-center">Novel Terkini</h2>
+  <section class="novel-carousel-section bg-white py-5">
+    <div class="container novel-carousel-section">
+      <h2 class="text-center text-danger fw-bold mb-4">Novel Terkini</h2>
 
       <div id="pilihan-novels-carousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -195,14 +196,14 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
           <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
             <div class="row g-4">
               <?php foreach($chunk as $novel): ?>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <div class="card novel-card shadow-sm">
                   <a href="detailnovel.php?id=<?php echo (int)$novel['id_novel']; ?>&from=berandanew">
                     <img src="<?= $novel['cover_url'] ?>" class="card-img-top" alt="<?= htmlspecialchars($novel['judul']) ?>">
                   </a>
                   <div class="card-body text-center">
                     <h5 class="card-title"><?= htmlspecialchars($novel['judul']) ?></h5>
-                    <a href="detailnovel.php?id=<?= $novel['id_novel'] ?>&from=berandanew" class="btn btn-success">Baca Sekarang</a>
+                    <a href="detailnovel.php?id=<?= $novel['id_novel'] ?>&from=berandanew" class="btn btn-dark">Baca Sekarang</a>
                   </div>
                 </div>
               </div>
@@ -224,7 +225,7 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
 
   <!-- Footer -->
   <footer class="bg-dark text-white text-center py-4 mt-5">
-    <p class="mb-0">&copy; 2024 Platform Novel. All rights reserved.</p>
+    <p class="mb-0">&copy; 2025 The Read Devils. All rights reserved.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>

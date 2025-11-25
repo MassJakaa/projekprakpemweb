@@ -1,88 +1,293 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Navbar Dropdown Fix</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      /* biar posisi search tetap di tengah dengan ukuran besar */
-      .search-container {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-      .search-container input {
-        width: 100%;
-        max-width: 500px;
-      }
-    </style>
-  </head>
 
-  <body>
-    <header class="p-3 mb-3 border-bottom bg-light"> 
-      <div class="container-fluid"> 
-        <div class="d-flex align-items-center justify-content-between">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-          <!-- Kiri: Logo + Kategori -->
-          <div class="d-flex align-items-center gap-3">
-            <a href="/" class="d-flex align-items-center text-decoration-none">
-              <img src="MU.png" alt="logo" height="50">
-            </a>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
+    <div class="container-fluid">
+      <!-- Logo -->
+      <a class="navbar-brand" href="#">
+        <img src="MU.png" alt="Logo" height="50">
+      </a>
 
-            <div class="dropdown"> 
-              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Kategori
-              </a> 
-              <ul class="dropdown-menu text-small">
-                <li><h6 class="dropdown-header">KATEGORI</h6></li>
-                <li><a class="dropdown-item" href="#">New project...</a></li> 
-                <li><a class="dropdown-item" href="#">Settings</a></li> 
-                <li><a class="dropdown-item" href="#">Profile</a></li> 
-                <li><hr class="dropdown-divider"></li> 
-                <li><a class="dropdown-item" href="#">Sign out</a></li> 
-              </ul>
-            </div> 
-          </div>
+      <!-- Kategori Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+          Kategori
+        </button>
+        <ul class="dropdown-menu">
+          <li><h6 class="dropdown-header">KATEGORI</h6></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Romance</a></li>
+          <li><a class="dropdown-item" href="#">Fantasy</a></li>
+          <li><a class="dropdown-item" href="#">Mystery</a></li>
+          <li><a class="dropdown-item" href="#">Sci-Fi</a></li>
+        </ul>
+      </div>
 
-          <!-- Tengah: Search -->
-          <div class="search-container px-3">
-            <form class="d-flex w-100" role="search"> 
-              <input type="search" class="form-control form-control-lg" placeholder="Search..." aria-label="Search"> 
-            </form> 
-          </div>
+      <!-- Search Bar -->
+      <div class="search-container mx-3">
+        <form class="d-flex" role="search">
+          <input type="search" class="form-control" placeholder="Cari novel..." aria-label="Search">
+        </form>
+      </div>
 
-          <!-- Kanan: Create + User -->
-          <div class="d-flex align-items-center gap-4 me-3"> 
-            <div class="dropdown"> 
-              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Create</a>
-              <ul class="dropdown-menu text-small"> 
-                <li><a class="dropdown-item" href="#">Create...</a></li> 
-                <li><a class="dropdown-item" href="#">Settings</a></li> 
-                <li><a class="dropdown-item" href="#">Profile</a></li> 
-                <li><hr class="dropdown-divider"></li> 
-                <li><a class="dropdown-item" href="#">Sign out</a></li> 
-              </ul>
+      <!-- Right Side: Create & User -->
+      <div class="d-flex align-items-center gap-3">
+        <!-- Create Dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+            Create
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Karya Saya</a></li>
+            <li><a class="dropdown-item" href="#">Tambah Novel</a></li>
+          </ul>
+        </div>
+
+        <!-- User Dropdown -->
+        <div class="dropdown">
+          <a href="#" class="d-block" data-bs-toggle="dropdown">
+            <img src="https://github.com/mdo.png" alt="User" width="40" height="40" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Log out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CAROUSEL 1: Hero Promo Banner -->
+  <section class="container my-5">
+    <div id="hero-promo-carousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#hero-promo-carousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#hero-promo-carousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#hero-promo-carousel" data-bs-slide-to="2"></button>
+      </div>
+
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://picsum.photos/1000/400?random=hero1" class="d-block w-100" alt="Promo 1">
+        </div>
+        <div class="carousel-item">
+          <img src="https://picsum.photos/1000/400?random=hero2" class="d-block w-100" alt="Promo 2">
+        </div>
+        <div class="carousel-item">
+          <img src="https://picsum.photos/1000/400?random=hero3" class="d-block w-100" alt="Promo 3">
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#hero-promo-carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#hero-promo-carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- CAROUSEL 2: Rekomendasi Novel -->
+  <section class="novel-carousel-section" style="background-color: #f8f9fa;">
+    <div class="container position-relative">
+      <h2 class="text-center">📚 Rekomendasi Novel Untukmu</h2>
+
+      <div id="recommended-novels-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <!-- Slide 1 -->
+          <div class="carousel-item active">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=1" class="card-img-top" alt="Novel 1">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Judul Novel 1</h5>
+                    <p class="card-text text-muted">Deskripsi singkat tentang novel ini...</p>
+                    <a href="#" class="btn btn-primary">Baca Sekarang</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=2" class="card-img-top" alt="Novel 2">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Judul Novel 2</h5>
+                    <p class="card-text text-muted">Deskripsi singkat tentang novel ini...</p>
+                    <a href="#" class="btn btn-success">Baca Sekarang</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=3" class="card-img-top" alt="Novel 3">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Judul Novel 3</h5>
+                    <p class="card-text text-muted">Deskripsi singkat tentang novel ini...</p>
+                    <a href="#" class="btn btn-danger">Baca Sekarang</a>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <div class="dropdown"> 
-              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> 
-                <img src="https://github.com/mdo.png" alt="mdo" width="36" height="36" class="rounded-circle"> 
-              </a> 
-              <ul class="dropdown-menu text-small"> 
-                <li><a class="dropdown-item" href="#">New project...</a></li> 
-                <li><a class="dropdown-item" href="#">Settings</a></li> 
-                <li><a class="dropdown-item" href="#">Profile</a></li> 
-                <li><hr class="dropdown-divider"></li> 
-                <li><a class="dropdown-item" href="#">Sign out</a></li> 
-              </ul>
-            </div> 
           </div>
 
-        </div> 
-      </div> 
-    </header>
+          <!-- Slide 2 -->
+          <div class="carousel-item">
+            <div class="row g-4">
+              <div class="col-md-3">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=4" class="card-img-top" alt="Novel 4">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Judul Novel 4</h5>
+                    <p class="card-text text-muted">Deskripsi singkat tentang novel ini...</p>
+                    <a href="#" class="btn btn-primary">Baca Sekarang</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=5" class="card-img-top" alt="Novel 5">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Judul Novel 5</h5>
+                    <p class="card-text text-muted">Deskripsi singkat tentang novel ini...</p>
+                    <a href="#" class="btn btn-success">Baca Sekarang</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=6" class="card-img-top" alt="Novel 6">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Judul Novel 6</h5>
+                    <p class="card-text text-muted">Deskripsi singkat tentang novel ini...</p>
+                    <a href="#" class="btn btn-danger">Baca Sekarang</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+        <button class="carousel-control-prev carousel-nav-btn" type="button" data-bs-target="#recommended-novels-carousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next carousel-nav-btn" type="button" data-bs-target="#recommended-novels-carousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAROUSEL 3: Novel yang Sudah Dibaca -->
+  <section class="novel-carousel-section" style="background-color: #ffffff;">
+    <div class="container position-relative">
+      <h2 class="text-center">🕒 Lanjutkan Membaca</h2>
+
+      <div id="reading-history-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <!-- Slide 1 -->
+          <div class="carousel-item active">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=21" class="card-img-top" alt="Novel Dibaca 1">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Novel Terakhir Dibaca 1</h5>
+                    <p class="card-text text-muted">Progress: Chapter 12 dari 20</p>
+                    <a href="#" class="btn btn-primary">Lanjutkan</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=22" class="card-img-top" alt="Novel Dibaca 2">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Novel Terakhir Dibaca 2</h5>
+                    <p class="card-text text-muted">Progress: Chapter 5 dari 15</p>
+                    <a href="#" class="btn btn-success">Lanjutkan</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=23" class="card-img-top" alt="Novel Dibaca 3">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Novel Terakhir Dibaca 3</h5>
+                    <p class="card-text text-muted">Progress: Chapter 8 dari 12</p>
+                    <a href="#" class="btn btn-danger">Lanjutkan</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="carousel-item">
+            <div class="row g-4">
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=24" class="card-img-top" alt="Novel Dibaca 4">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Novel Terakhir Dibaca 4</h5>
+                    <p class="card-text text-muted">Progress: Chapter 3 dari 10</p>
+                    <a href="#" class="btn btn-primary">Lanjutkan</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=25" class="card-img-top" alt="Novel Dibaca 5">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Novel Terakhir Dibaca 5</h5>
+                    <p class="card-text text-muted">Progress: Chapter 18 dari 25</p>
+                    <a href="#" class="btn btn-success">Lanjutkan</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="card novel-card shadow-sm">
+                  <img src="https://picsum.photos/300/400?random=26" class="card-img-top" alt="Novel Dibaca 6">
+                  <div class="card-body text-center">
+                    <h5 class="card-title">Novel Terakhir Dibaca 6</h5>
+                    <p class="card-text text-muted">Progress: Chapter 1 dari 8</p>
+                    <a href="#" class="btn btn-danger">Lanjutkan</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-control-prev carousel-nav-btn" type="button" data-bs-target="#reading-history-carousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next carousel-nav-btn" type="button" data-bs-target="#reading-history-carousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-4 mt-5">
+    <p class="mb-0">&copy; 2024 Platform Novel. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+</body>
+
 </html>

@@ -7,6 +7,10 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// ambil semua kategori
+$kategori_query = "SELECT * FROM kategori ORDER BY nama_kategori ASC";
+$kategori_result = mysqli_query($konek, $kategori_query);
+
 $novel_id = $_GET['id'];
 
 $query = "SELECT * FROM stories WHERE id_novel='$novel_id'";
@@ -55,19 +59,76 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Novel</title>
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-dark bg-danger">
-    <div class="container-fluid justify-content-start gap-4">
-        <a href="novelsaya.php" class="btn btn-outline-light btn-sm">Kembali</a>
-        <span class="navbar-brand mb-0 h1">Edit Novel</span>
-    </div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger border-bottom sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="berandanew.php">
+            <img src="gambar/MU.png" alt="Logo" height="50" class="me-2">
+            <span class="fs-4">The Read Devils</span>
+        </a>
+
+        <!-- Kategori Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                Kategori
+            </button>
+            <ul class="dropdown-menu">
+                <li><h6 class="dropdown-header">KATEGORI</h6></li>
+                <li><hr class="dropdown-divider"></li>
+                <?php 
+                mysqli_data_seek($kategori_result, 0);
+                while($kat = mysqli_fetch_assoc($kategori_result)): 
+                ?>
+                    <li><a class="dropdown-item" href="kategori.php?kategori_id=<?= $kat['id_kategori'] ?>&kategori_nama=<?= $kat['nama_kategori'] ?>"><?= $kat['nama_kategori'] ?></a></li>
+                <?php endwhile; ?>
+            </ul>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <form class="d-flex" role="search" action="cari.php" method="GET">
+                <input type="search" name="search" class="form-control" placeholder="Cari novel..." aria-label="Search">
+            </form>
+        </div>
+
+        <!-- Right Side: Create & User -->
+        <div class="d-flex align-items-center gap-3">
+            <?php if(isset($_SESSION['user_id'])): ?>
+            <div class="dropdown">
+                <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Create
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="novelsaya.php">Karya Anda</a></li>
+                    <li><a class="dropdown-item" href="tambahnovel.php">Tambah Novel</a></li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a href="#" class="d-block" data-bs-toggle="dropdown">
+                    <img src="https://github.com/mdo.png" alt="User" width="40" height="40" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="profil.php">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="logout.php">Log out</a></li>
+                </ul>
+            </div>
+            <?php else: ?>
+            <a href="login.php" class="btn btn-light">Login</a>
+            <a href="register.php" class="btn btn-outline-light">Register</a>
+            <?php endif; ?>
+            </div>
+        </div>
 </nav>
 
-<div class="container my-4">
+<div class="container my-4" style="max-width: 800px;">
     <div class="card shadow-sm">
         <div class="card-body p-4">
 
@@ -122,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="hidden" name="pdf_public_id" id="pdfPublicId" value="<?= $data['pdf_id'] ?>">
             <div class="d-flex gap-2 mt-4">
                 <button type="submit" class="btn btn-primary flex-fill">Simpan Perubahan</button>
-                <a href="berandanew.php" class="btn btn-danger flex-fill">Batal</a>
+                <a href="novelsaya.php" class="btn btn-danger flex-fill">Batal</a>
             </div>
         </form>
 
@@ -130,19 +191,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </div>
 
-<!-- Buat Upload Ke Cloudinary, Pusing Pokoknya -->
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <p class="mb-0">&copy; 2024 The Read Devils. All rights reserved.</p>
+</footer>
+
+<!-- Buat Upload Ke Cloudinary -->
 <script>
 const coverWidget = cloudinary.createUploadWidget({
     cloudName: "<?= CLOUDINARY_CLOUD_NAME ?>",
     uploadPreset: "<?= CLOUDINARY_UPLOAD_PRESET ?>",
     clientAllowedFormats: ["jpg","png"],
 }, (err,res)=>{
-    if(res.event === "success"){ //kalo sukses upload ngambil link nya buat di simpen di database
-        document.getElementById("coverUrl").value = res.info.secure_url; //ini link
-        document.getElementById("coverPublicId").value = res.info.public_id; //ini publicid biar nanti bisa di delete
+    if(res.event === "success"){
+        document.getElementById("coverUrl").value = res.info.secure_url;
+        document.getElementById("coverPublicId").value = res.info.public_id;
     }
 });
-// sama ae bedane buat pdf
+
 const pdfWidget = cloudinary.createUploadWidget({
     cloudName: "<?= CLOUDINARY_CLOUD_NAME ?>",
     uploadPreset: "<?= CLOUDINARY_UPLOAD_PRESET ?>",
