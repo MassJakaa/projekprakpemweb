@@ -36,7 +36,7 @@ $result = mysqli_query($konek, $query);
 <!-- Navbar disamakan struktur dan kelasnya dengan novelsaya.php -->
 <nav class="navbar navbar-dark bg-danger">
   <div class="container-fluid justify-content-start gap-4">
-    <a href="berandanew.html" class="btn btn-outline-light btn-sm">Kembali</a>
+    <a href="berandanew.php" class="btn btn-outline-light btn-sm">Kembali</a>
     <span class="navbar-brand mb-0 h1">Semua Novel</span>
   </div>
 </nav>

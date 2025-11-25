@@ -1,15 +1,19 @@
 <?php
-// reader.php - direct PDF embed via url from DB
-// usage: reader.php?id=123
-
+session_start();
 require_once 'koneksi.php';
 
-// ambil id
-$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-if ($id <= 0) {
-    header('Location: seluruhnovel.php');
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
     exit;
 }
+
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+if ($id <= 0) {
+    header('Location: berandanew.php');
+    exit;
+}
+
+
 
 // ambil pdf_url & judul dari DB (prepared statement)
 $stmt = $konek->prepare("SELECT judul, pdf_url FROM stories WHERE id_novel = ? LIMIT 1");
@@ -27,14 +31,11 @@ if (!$row || empty($row['pdf_url'])) {
 function e($s){ return htmlspecialchars($s ?? '', ENT_QUOTES, 'UTF-8'); }
 
 // Tentukan src iframe:
-// - jika pdf_url dimulai dengan http/https -> pakai langsung (tapi bisa diblokir dari embed oleh server remote)
-// - jika bukan -> anggap file lokal di uploads/pdfs/ dan validasi path
 $pdf_url = $row['pdf_url'];
 $iframe_src = '';
 if (preg_match('#^https?://#i', $pdf_url)) {
     $iframe_src = $pdf_url;
 } else {
-    // file lokal: pastikan aman dan ada di folder uploads/pdfs/
     $baseDir = realpath(__DIR__ . '/uploads/pdfs/') . DIRECTORY_SEPARATOR;
     $file = basename($pdf_url); // hapus directory traversal
     $fullPath = realpath($baseDir . $file);
@@ -59,17 +60,23 @@ if (preg_match('#^https?://#i', $pdf_url)) {
 <body>
   <nav class="navbar navbar-light bg-light topbar">
     <div class="container-fluid d-flex align-items-center justify-content-between">
-      <a href="detailnovel.php?id=<?php echo (int)$id; ?>" class="btn btn-outline-secondary btn-sm">Kembali</a>
+      <?php
+        if ($_GET['from'] === 'kategori') {
+      ?>
+          <a href="detailnovel.php?id=<?= $id; ?>&from=<?= $_GET['from'] ?>&kategori_id=<?= $_GET['kategori_id'] ?>&kategori_nama=<?= $_GET['kategori_nama'] ?>" class="btn btn-outline-danger btn-sm">Kembali</a>
+      <?php
+        ;}else{
+      ?>
+          <a href="detailnovel.php?id=<?= $id; ?>&from=<?= $_GET['from'] ?>" class="btn btn-outline-danger btn-sm">Kembali</a>
+      <?php
+        ;}
+      ?>
       <div class="text-truncate" style="max-width:60%;"><strong><?php echo e($row['judul']); ?></strong></div>
       <div>
         <a href="<?php echo e($iframe_src); ?>" class="btn btn-primary btn-sm" download>Unduh</a>
       </div>
     </div>
   </nav>
-
-  <!-- iframe atau embed -->
   <iframe src="<?php echo e($iframe_src); ?>" class="viewer" title="PDF Reader"></iframe>
-
-  <!-- catatan: jika iframe kosong/blank, kemungkinan remote server blok embed (X-Frame-Options) -->
 </body>
 </html>

@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     if (mysqli_query($konek, $query)) {
         $success = "Novel berhasil ditambahkan!";
-        header("refresh:2;url=berandanew.html");
+        header("refresh:2;url=berandanew.php");
     } else {
         $error = "Gagal menambahkan novel: " . mysqli_error($konek);
     }
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <nav class="navbar navbar-dark bg-danger">
     <div class="container-fluid justify-content-start gap-4">
-        <a href="berandanew.html" class="btn btn-outline-light btn-sm">Kembali</a>
+        <a href="berandanew.php" class="btn btn-outline-light btn-sm">Kembali</a>
         <span class="navbar-brand mb-0 h1">Tambah Novel Baru</span>
     </div>
 </nav>
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="d-flex gap-2 mt-4">
                     <button type="submit" class="btn btn-primary flex-fill">Simpan Novel</button>
-                    <a href="berandanew.html" class="btn btn-danger flex-fill">Batal</a>
+                    <a href="berandanew.php" class="btn btn-danger flex-fill">Batal</a>
                 </div>
             </form>
         </div>

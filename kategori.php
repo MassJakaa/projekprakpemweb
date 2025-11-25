@@ -8,7 +8,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $user_id = $_SESSION['user_id'];
-
+$kategori_id = $_GET['kategori_id'];
+$kategori_nama = $_GET['kategori_nama'];
 // pagination setup
 $limit = 5; // jumlah novel per halaman
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -16,7 +17,7 @@ if ($page < 1) $page = 1;
 $offset = ($page - 1) * $limit;
 
 // hitung total novel user
-$count_query = "SELECT COUNT(*) as total FROM stories WHERE user_id = '$user_id'";
+$count_query = "SELECT COUNT(*) as total FROM stories WHERE kategori_id = '$kategori_id'";
 $count_result = mysqli_query($konek, $count_query);
 $total_novels = mysqli_fetch_assoc($count_result)['total'];
 $total_pages = ceil($total_novels / $limit);
@@ -25,7 +26,7 @@ $total_pages = ceil($total_novels / $limit);
 $query = "SELECT stories.*, kategori.nama_kategori AS kategori_nama
           FROM stories 
           JOIN kategori ON kategori.id_kategori = stories.kategori_id
-          WHERE user_id = '$user_id'
+          WHERE kategori_id = '$kategori_id'
           ORDER BY id_novel DESC
           LIMIT $limit OFFSET $offset";
 
@@ -36,7 +37,7 @@ $result = mysqli_query($konek, $query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karya Anda</title>
+    <title>Kategori</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
@@ -44,12 +45,12 @@ $result = mysqli_query($konek, $query);
 <nav class="navbar navbar-dark bg-danger">
     <div class="container-fluid justify-content-start gap-4">
         <a href="berandanew.php" class="btn btn-outline-light btn-sm">Kembali</a>
-        <span class="navbar-brand mb-0 h1">Karya Anda</span>
+        <span class="navbar-brand mb-0 h1"><?= $kategori_nama ?></span>
     </div>
 </nav>
 
 <div class="container my-4">
-    <h2 class="mb-4">Daftar Karya Anda</h2>
+    <h2 class="mb-4">Daftar Novel Dengan Kategori <?= $kategori_nama ?></h2>
     
     <?php 
     if(mysqli_num_rows($result) == 0){
@@ -62,7 +63,7 @@ $result = mysqli_query($konek, $query);
         <div class="row g-0">
             <div class="col-md-2">
                 <div class="ratio" style="--bs-aspect-ratio:134%;">
-                    <a href="detailnovel.php?id=<?php echo (int)$data['id_novel']; ?>&from=novelsaya">
+                    <a href="detailnovel.php?id=<?php echo (int)$data['id_novel']; ?>&from=kategorikategori_id=<?= $kategori_id ?>&kategori_nama=<?= $kategori_nama ?>">
                         <img src="<?php echo htmlspecialchars($data['cover_url']); ?>" class="img-fluid object-fit-cover w-100 h-100" alt="<?php echo htmlspecialchars($data['judul']); ?>">
                     </a>
                 </div>
@@ -82,11 +83,7 @@ $result = mysqli_query($konek, $query);
                     </p>
                     
                     <div class="mt-3">
-                        <a href="editnovel.php?id=<?= $data['id_novel']; ?>" 
-                           class="btn btn-primary btn-sm">Edit</a>
-                        <a href="hapusnovel.php?id=<?= $data['id_novel']; ?>"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Yakin ingin menghapus novel ini?');">Hapus</a>
+                        <a href="detailnovel.php?id=<?= $data['id_novel'] ?>&from=kategori&kategori_id=<?= $kategori_id ?>&kategori_nama=<?= $kategori_nama ?>" class="btn btn-primary">Baca Novel</a>
                     </div>
                 </div>
             </div>

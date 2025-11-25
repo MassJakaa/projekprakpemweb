@@ -27,9 +27,9 @@ $user = mysqli_fetch_assoc($query);
     <div class="card mx-auto" style="max-width: 500px;">
       <div class="card-body text-center">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <a href="berandanew.html" class="btn btn-outline-danger btn-sm">← Kembali ke Beranda</a>
+          <a href="berandanew.php" class="btn btn-outline-danger btn-sm">← Kembali ke Beranda</a>
         </div>
-        <img src="gambar/MU.png" alt="Avatar" class="rounded-circle mb-3" width="120" height="120">
+        <img src="https://github.com/mdo.png" alt="Avatar" class="rounded-circle mb-3" width="120" height="120">
         <h4 class="card-title mb-1"><?= htmlspecialchars($user['username']); ?></h4>
         <p class="text-muted mb-3"><?= htmlspecialchars($user['email']); ?></p>
 

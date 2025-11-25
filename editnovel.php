@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="hidden" name="pdf_public_id" id="pdfPublicId" value="<?= $data['pdf_id'] ?>">
             <div class="d-flex gap-2 mt-4">
                 <button type="submit" class="btn btn-primary flex-fill">Simpan Perubahan</button>
-                <a href="berandanew.html" class="btn btn-danger flex-fill">Batal</a>
+                <a href="berandanew.php" class="btn btn-danger flex-fill">Batal</a>
             </div>
         </form>
 

@@ -16,7 +16,7 @@ if (isset($_POST['login'])) {
             // Password benar -> login sukses
             $_SESSION['user_id'] = $user['id_user'];
             $_SESSION['username'] = $user['username'];
-            header("Location: berandanew.html");
+            header("Location: berandanew.php");
             exit();
         } else {
             $error = "Password salah!";
