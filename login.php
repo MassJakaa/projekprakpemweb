@@ -68,7 +68,7 @@ if (isset($_POST['login'])) {
         </div>
       </form>
 
-      <p class="text-center mt-3 mb-0">Belum punya akun? <a href="register.php">Daftar</a></p>
+      <p class="text-center mt-3 mb-0">Belum punya akun? <a href="registrasi.php">Daftar</a></p>
     </div>
   </div>
 

@@ -44,7 +44,7 @@ $result = mysqli_query($konek, $query);
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column" style="min-height: 100vh;">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger border-bottom sticky-top">
     <div class="container-fluid">
@@ -108,7 +108,7 @@ $result = mysqli_query($konek, $query);
         </div>
 </nav>
 
-<div class="container my-4">
+<div class="container my-4 flex-grow-1">
     <h2 class="mb-4">Daftar Karya Anda</h2>
     
     <?php 
@@ -187,8 +187,8 @@ $result = mysqli_query($konek, $query);
     <?php endif; ?>
 </div>
 
-<footer class="bg-dark text-white text-center py-4 mt-5">
-    <p class="mb-0">&copy; 2025 The Read Devils. All rights reserved.</p>
+<footer class="bg-dark text-white text-center py-4 mt-auto">
+    <p class="mb-0">&copy; 2024 The Read Devils. All rights reserved.</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

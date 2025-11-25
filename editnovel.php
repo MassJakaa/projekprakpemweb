@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column" style="min-height: 100vh;">
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger border-bottom sticky-top">
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 </nav>
 
-<div class="container my-4" style="max-width: 800px;">
+<div class="container my-4flex-grow-1" style="max-width: 800px;">
     <div class="card shadow-sm">
         <div class="card-body p-4">
 

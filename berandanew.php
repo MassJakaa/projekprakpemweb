@@ -16,7 +16,7 @@ $rekomendasi_query = "SELECT s.*, k.nama_kategori
                       FROM stories s
                       LEFT JOIN kategori k ON k.id_kategori = s.kategori_id
                       ORDER BY RAND()
-                      LIMIT 6";
+                      LIMIT 8";
 $rekomendasi_result = mysqli_query($konek, $rekomendasi_query);
 $rekomendasi_novels = [];
 while($row = mysqli_fetch_assoc($rekomendasi_result)){
@@ -28,7 +28,7 @@ $pilihan_query = "SELECT s.*, k.nama_kategori
                   FROM stories s
                   LEFT JOIN kategori k ON k.id_kategori = s.kategori_id
                   ORDER BY s.id_novel DESC
-                  LIMIT 6";
+                  LIMIT 8";
 $pilihan_result = mysqli_query($konek, $pilihan_query);
 $pilihan_novels = [];
 while($row = mysqli_fetch_assoc($pilihan_result)){
@@ -149,7 +149,7 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
       <div id="recommended-novels-carousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <?php 
-          $chunks = array_chunk($rekomendasi_novels, 3);
+          $chunks = array_chunk($rekomendasi_novels, 4);
           foreach($chunks as $index => $chunk): 
           ?>
           <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
@@ -190,7 +190,7 @@ while($row = mysqli_fetch_assoc($pilihan_result)){
       <div id="pilihan-novels-carousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
           <?php 
-          $chunks2 = array_chunk($pilihan_novels, 3);
+          $chunks2 = array_chunk($pilihan_novels, 4);
           foreach($chunks2 as $index => $chunk): 
           ?>
           <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
