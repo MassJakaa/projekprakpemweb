@@ -21,7 +21,7 @@ $user = mysqli_fetch_assoc($query);
   <title>Profil Saya</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-body-tertiary">
+<body class="bg-light d-flex flex-column" style="min-height: 100vh;">
 
 <nav class="navbar navbar-dark bg-danger">
     <div class="container-fluid justify-content-start gap-4">
@@ -33,7 +33,7 @@ $user = mysqli_fetch_assoc($query);
 <div class="container py-5">
   <div class="card mx-auto" style="max-width: 500px;">
     <div class="card-body text-center">
-      <img src="https://github.com/mdo.png" alt="Avatar" class="rounded-circle mb-3" width="120" height="120">
+      <img src="gambar/profil.jpg" alt="Avatar" class="rounded-circle mb-3" width="120" height="120">
       <h4 class="card-title mb-1"><?= htmlspecialchars($user['username']); ?></h4>
       <p class="text-muted mb-3"><?= htmlspecialchars($user['email']); ?></p>
 
@@ -51,7 +51,7 @@ $user = mysqli_fetch_assoc($query);
   </div>
 </div>
 
-<footer class="bg-dark text-white text-center py-4 mt-5">
+<footer class="bg-dark text-white text-center py-4 mt-auto">
     <p class="mb-0">&copy; 2024 The Read Devils. All rights reserved.</p>
 </footer>
 
