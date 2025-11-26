@@ -95,7 +95,7 @@ $result = mysqli_query($konek, $query);
 
             <div class="dropdown">
                 <a href="#" class="d-block" data-bs-toggle="dropdown">
-                    <img src="https://github.com/mdo.png" alt="User" width="40" height="40" class="rounded-circle">
+                    <img src="gambar/profil.jpg" alt="User" width="40" height="40" class="rounded-circle">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="profil.php">Profile</a></li>
